@@ -1,28 +1,35 @@
 /* public/css/style.css */
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Segoe UI', sans-serif;
   background-color: #f8f4fe;
   color: #333;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  margin: 0;
   padding: 1rem;
-  box-sizing: border-box;
 }
 
+/* Auth container for login/register */
 .auth-container {
   background: white;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 0 10px rgba(138, 43, 226, 0.2);
+  box-shadow: 0 4px 20px rgba(138, 43, 226, 0.15);
   text-align: center;
   width: 100%;
-  max-width: 350px;
-  box-sizing: border-box;
+  max-width: 400px;
+  transition: all 0.3s ease-in-out;
 }
 
+/* Inputs and Buttons */
 input,
 button {
   width: 100%;
@@ -31,7 +38,13 @@ button {
   border-radius: 6px;
   border: 1px solid #ccc;
   font-size: 1rem;
-  box-sizing: border-box;
+  transition: all 0.2s ease-in-out;
+}
+
+input:focus {
+  outline: none;
+  border-color: #8a2be2;
+  box-shadow: 0 0 5px rgba(138, 43, 226, 0.3);
 }
 
 button {
@@ -54,20 +67,21 @@ button:hover {
 
 /* Mobile responsiveness */
 @media (max-width: 480px) {
+  body {
+    align-items: flex-start;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
   .auth-container {
     padding: 1.5rem 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(138, 43, 226, 0.1);
   }
 
   input,
   button {
     font-size: 0.95rem;
     padding: 10px;
-  }
-
-  body {
-    height: auto;
-    min-height: 100vh;
-    align-items: flex-start;
-    padding-top: 2rem;
   }
 }
