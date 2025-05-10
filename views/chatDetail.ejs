@@ -1,0 +1,101 @@
+<!-- views/chatDetail.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat with <%= otherUser.username %></title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body class="chat-body">
+  <div class="chat-container">
+    <div class="sidebar">
+      <a href="/chat">← Back</a>
+      <h3><%= currentUser.username %></h3>
+    </div>
+
+    <div class="main-chat">
+      <div class="chat-header">
+        <img src="<%= otherUser.profileImage.url %>" class="avatar">
+        <h4><%= otherUser.username %></h4>
+      </div>
+
+      <div class="messages" id="messages">
+        <% messages.forEach(msg => { %>
+          <div class="message <%= msg.sender.equals(currentUser._id) ? 'sent' : 'received' %>">
+            <% if (msg.content) { %>
+              <p><%= msg.content %></p>
+            <% } %>
+            <% if (msg.media && msg.media.url) { %>
+              <% if (msg.media.type === 'image') { %>
+                <img src="<%= msg.media.url %>" class="media-img">
+              <% } else if (msg.media.type === 'video') { %>
+                <video src="<%= msg.media.url %>" controls class="media-video"></video>
+              <% } %>
+            <% } %>
+            <span class="like-btn" data-id="<%= msg._id %>"><%= msg.liked ? '❤️' : '🤍' %></span>
+          </div>
+        <% }) %>
+      </div>
+
+      <form id="messageForm" enctype="multipart/form-data">
+        <input type="text" id="messageInput" placeholder="Type a message...">
+        <input type="file" name="media" id="mediaInput" accept="image/*,video/*">
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const socket = io();
+    const form = document.getElementById('messageForm');
+    const messagesDiv = document.getElementById('messages');
+    const currentUserId = "<%= currentUser._id %>";
+    const receiverId = "<%= otherUser._id %>";
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const input = document.getElementById('messageInput');
+      const media = document.getElementById('mediaInput').files[0];
+      const formData = new FormData();
+      formData.append('message', input.value);
+      formData.append('media', media);
+      formData.append('receiverId', receiverId);
+
+      const res = await fetch('/message', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+
+      socket.emit('newMessage', data);
+      input.value = '';
+      document.getElementById('mediaInput').value = '';
+    });
+
+    socket.on('messageReceived', (msg) => {
+      const div = document.createElement('div');
+      div.className = `message ${msg.sender === currentUserId ? 'sent' : 'received'}`;
+      if (msg.content) div.innerHTML += `<p>${msg.content}</p>`;
+      if (msg.media && msg.media.url) {
+        if (msg.media.type === 'image') {
+          div.innerHTML += `<img src="${msg.media.url}" class="media-img">`;
+        } else {
+          div.innerHTML += `<video src="${msg.media.url}" class="media-video" controls></video>`;
+        }
+      }
+      div.innerHTML += `<span class="like-btn" data-id="${msg._id}">🤍</span>`;
+      messagesDiv.appendChild(div);
+    });
+
+    document.addEventListener('click', async (e) => {
+      if (e.target.classList.contains('like-btn')) {
+        const id = e.target.dataset.id;
+        const res = await fetch(`/message/like/${id}`, { method: 'POST' });
+        const data = await res.json();
+        e.target.textContent = data.liked ? '❤️' : '🤍';
+      }
+    });
+  </script>
+</body>
+</html>

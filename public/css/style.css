@@ -1,0 +1,44 @@
+/* public/css/style.css */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f8f4fe;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .auth-container {
+    background: white;
+    padding: 2rem 3rem;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(138, 43, 226, 0.2);
+    text-align: center;
+    width: 300px;
+  }
+  
+  input, button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+  
+  button {
+    background-color: #8a2be2;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #7521c9;
+  }
+  
+  .error {
+    color: red;
+    margin-bottom: 10px;
+  }
+  

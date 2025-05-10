@@ -1,0 +1,31 @@
+<!-- views/chat.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chats</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="chat-body">
+  <div class="chat-container">
+    <div class="sidebar">
+      <h3>Welcome, <%= currentUser.username %></h3>
+      <ul>
+        <% recentChats.forEach(c => { %>
+          <li>
+            <a href="/chat/<%= c.user._id %>">
+              <img src="<%= c.user.profileImage.url %>" alt="profile" class="avatar">
+              <span><%= c.user.username %></span><br>
+              <small><%= c.lastMessage ? c.lastMessage.content || '[media]' : 'Start chat' %></small>
+            </a>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+
+    <div class="main-chat">
+      <p>Select a user to start chatting →</p>
+    </div>
+  </div>
+</body>
+</html>
