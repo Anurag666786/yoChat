@@ -4,12 +4,17 @@ const passportLocalMongoose = require('passport-local-mongoose');
 
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
-  profileImage: {
+  profilePic: {
     url: String,
-    filename: String
+    public_id: String
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
   }
 });
 
-userSchema.plugin(passportLocalMongoose); // adds username, hash & salt
+// Automatically handles password hashing, salting, etc.
+userSchema.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model('User', userSchema);
