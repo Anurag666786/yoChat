@@ -1,7 +1,7 @@
 {
-    "name": "whatsapp-clone-web",
+    "name": "yochat",
     "version": "1.0.0",
-    "description": "WhatsApp-style messaging app with custom theme",
+    "description": "Chatting app",
     "main": "app.js",
     "scripts": {
         "start": "node app.js"
