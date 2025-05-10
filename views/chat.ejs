@@ -14,7 +14,11 @@
         <% recentChats.forEach(c => { %>
           <li>
             <a href="/chat/<%= c.user._id %>">
-              <img src="<%= c.user.profileImage.url %>" alt="profile" class="avatar">
+              <% if (c.user.profileImage && c.user.profileImage.url) { %>
+                <img src="<%= c.user.profileImage.url %>" alt="profile" class="avatar">
+              <% } else { %>
+                <img src="/path/to/default-avatar.jpg" alt="profile" class="avatar"> <!-- Add your default avatar here -->
+              <% } %>
               <span><%= c.user.username %></span><br>
               <small><%= c.lastMessage ? c.lastMessage.content || '[media]' : 'Start chat' %></small>
             </a>

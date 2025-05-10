@@ -16,7 +16,11 @@
 
     <div class="main-chat">
       <div class="chat-header">
-        <img src="<%= otherUser.profileImage.url %>" class="avatar">
+        <% if (otherUser.profileImage && otherUser.profileImage.url) { %>
+          <img src="<%= otherUser.profileImage.url %>" class="avatar">
+        <% } else { %>
+          <img src="/path/to/default-avatar.jpg" class="avatar"> <!-- Add your default avatar here -->
+        <% } %>
         <h4><%= otherUser.username %></h4>
       </div>
 
