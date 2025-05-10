@@ -47,6 +47,11 @@ app.use('/', require('./routes/auth'));
 app.use('/chat', require('./routes/chat'));
 app.use('/user', require('./routes/user'));
 
+// Fallback route for undefined "/"
+app.get('/', (req, res) => {
+  res.redirect('/login'); // or '/chat' if preferred
+});
+
 // Socket.IO setup
 io.on('connection', socket => {
   console.log('A user connected');

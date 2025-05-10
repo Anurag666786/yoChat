@@ -7,6 +7,11 @@ const { cloudinary, storage } = require('../config/cloudinary');
 const User = require('../models/userModel');
 const upload = multer({ storage });
 
+// Default root route
+router.get('/', (req, res) => {
+  res.redirect('/login'); // or res.redirect('/chat')
+});
+
 // Show register page
 router.get('/register', (req, res) => {
   res.render('register', { message: req.flash('error') });
